@@ -6,17 +6,10 @@
 #-----------------------------------------------------------------------
 $bootstrap = <<BOOTSTRAP
 export DEBIAN_FRONTEND=noninteractive
-apt-get update && apt-get upgrade
+apt-get update
 
 # label as reference environment
-echo "export ECE3574_REFERENCE_ENV=Y" >> /etc/environment
-
-# install base development tools
-apt-get -y install build-essential
-apt-get -y install cmake valgrind lcov graphviz doxygen
-apt-get -y install python3-pip
-pip3 install gcovr
-pip3 install pexpect
+echo "export LKP_PROJECT_ENV=Y" >> /etc/environment
 
 # install a lightweight graphical environment
 apt-get -y install virtualbox-guest-dkms 
@@ -27,11 +20,9 @@ echo "[Autologin]" >> /etc/sddm.conf
 echo "User=vagrant" >> /etc/sddm.conf
 echo "Session=openbox.desktop" >> /etc/sddm.conf
 
-# install a simple browser (for viewing coverage reports)
+# install a simple browser
 apt-get -y install hv3
 
-# install Qt dev libs
-apt-get -y install qt5-default
 BOOTSTRAP
 #-----------------------------------------------------------------------
 
@@ -39,12 +30,12 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/bionic64"
   config.ssh.forward_agent = true
   config.ssh.forward_x11 = true
-  config.vm.customize ["modifyvm", :id, "--cpus", 2]
 
   # get rid of annoying console.log file and start the GUI 
   config.vm.provider "virtualbox" do |vb|
     vb.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
     vb.gui = true
+    vb.cpus = 1
   end
 
   # setup the VM
