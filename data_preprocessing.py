@@ -1,13 +1,16 @@
-with open("./data/out.txt") as data_file:
+input_file_path_name = 'out_ab_nginx'
+
+with open("./data/" + input_file_path_name + ".txt") as data_file:
     lines = data_file.readlines()
 
 lookup_map = {}
 
-with open("./data/scheduling_data.csv", mode="a+") as schedulind_Data:
+with open("./data/scheduling_data_" + input_file_path_name + ".csv", mode="a+") as schedulind_Data:
     for line in lines:
         tokens = [token for token in line.split(" ") if token]
 
         if len(tokens) is not 4 and len(tokens) is not 6:
+            print(tokens)
             raise ValueError("Length of row does not seem right! Stopping.")
 
         code = tokens[0].strip("*").strip(" ").strip("*")

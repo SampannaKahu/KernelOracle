@@ -108,3 +108,6 @@ venv.bak/
 
 # Data folder.
 data
+
+# Vagrant cache folder
+.vagrant
