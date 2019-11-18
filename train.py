@@ -36,6 +36,13 @@ if __name__ == '__main__':
 
     # load data and make training set
     data = torch.load('traindata.pt')
+
+    # Load and preprocess data.
+    df = pd.read_csv("data/scheduling_data_out_ab_nginx.csv")
+    df = utils.preprocess_data(df=df)
+
+    assert df.isnull().values.any() == False, "Dataset contains a NaN value. Aborting."
+
     train_x, train_y, test_x, test_y = utils.make_training_and_testing_set(data, percent_train=97.0)
 
     # build the model

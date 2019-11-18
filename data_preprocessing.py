@@ -5,7 +5,8 @@ with open("./data/" + input_file_path_name + ".txt") as data_file:
 
 lookup_map = {}
 
-with open("./data/scheduling_data_" + input_file_path_name + ".csv", mode="a+") as schedulind_Data:
+with open("./data/scheduling_data_" + input_file_path_name + ".csv", mode="w") as schedulind_Data:
+    schedulind_Data.write("task_code,time,name,pid" + "\n")
     for line in lines:
         tokens = [token for token in line.split(" ") if token]
 
