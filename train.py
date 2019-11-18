@@ -110,3 +110,5 @@ if __name__ == '__main__':
         draw(y[2], 'b')
         plt.savefig('predict%d.pdf' % i)
         plt.close()
+
+    make_dot(pred, seq.named_parameters())
