@@ -43,6 +43,9 @@ if __name__ == '__main__':
 
     assert df.isnull().values.any() == False, "Dataset contains a NaN value. Aborting."
 
+    assert df.apply(lambda s: pd.to_numeric(s, errors='coerce').notnull().all()).all(), \
+        "At least 1 value in the dataframe is non-numeric."
+
     train_x, train_y, test_x, test_y = utils.make_training_and_testing_set(data, percent_train=97.0)
 
     # build the model

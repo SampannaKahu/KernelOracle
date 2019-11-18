@@ -24,12 +24,13 @@ def one_hot_encode_column(df, column_to_encode, prefix):
     df[column_to_encode] = pd.Categorical(df[column_to_encode])
     df_dummies = pd.get_dummies(df[column_to_encode], prefix=prefix)
     df = pd.concat([df, df_dummies], axis=1)
+    df = df.drop(columns=[column_to_encode])
     return df
 
 
 def preprocess_data(df):
     # Drop task_code since it is not required.
-    df = df.drop(columns=['task_code'])
+    df = df.drop(columns=['task_code', 'pid'])
 
     # Get the time column
     time_np = np.diff(df['time'].values, n=1)
