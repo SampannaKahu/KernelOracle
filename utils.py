@@ -16,10 +16,10 @@ def make_training_and_testing_set(data, percent_train=90.):
     return _train_x, _train_y, _test_x, _test_y
 
 
-def min_max_scale(X):
-    min = np.min(X)
-    max = np.max(X)
-    return (X - min) / (max - min)
+def min_max_scale(x):
+    _min = np.min(x)
+    _max = np.max(x)
+    return (x - _min) / (_max - _min)
 
 
 def one_hot_encode_column(df, column_to_encode, prefix):
