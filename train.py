@@ -39,7 +39,7 @@ if __name__ == '__main__':
 
     # batch_size = 985
     batch_size = 984
-    hidden_dim = 100
+    hidden_dim = 51
 
     # Load and preprocess data.
     df = pd.read_csv("data/scheduling_data_out_ab_nginx.csv")
