@@ -2,6 +2,8 @@ import torch
 import numpy as np
 import pandas as pd
 
+DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
 
 def make_training_and_testing_set(data, percent_train=90.):
     num_train = int(float(percent_train) * data.shape[0] / 100)
