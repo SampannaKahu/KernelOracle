@@ -37,23 +37,31 @@ if __name__ == '__main__':
     np.random.seed(seed)
     torch.manual_seed(seed)
 
+    # batch_size = 985
+    batch_size = 984
+    hidden_dim = 100
+
     # Load and preprocess data.
     df = pd.read_csv("data/scheduling_data_out_ab_nginx.csv")
     df = utils.preprocess_data(df=df)
-    dataa = df.to_numpy()
-    dataa = dataa.reshape(985, 28, -1)  # TODO: Stop hard-coding this.
-    dataa = np.transpose(dataa, axes=(0, 2, 1))
+    data = df.to_numpy()
+    data_dim = data.shape[1]
+    total = data.shape[0]
+    remainder = total % batch_size
+    data = data[:total - remainder, :]
+    data = data.reshape(batch_size, data_dim, -1)  # TODO: Stop hard-coding this.
+    data = np.transpose(data, axes=(0, 2, 1))
 
     assert not df.isnull().values.any(), "Dataset contains a NaN value. Aborting."
 
     assert df.apply(lambda s: pd.to_numeric(s, errors='coerce').notnull().all()).all(), \
         "At least 1 value in the dataframe is non-numeric."
 
-    train_x, train_y, test_x, test_y = utils.make_training_and_testing_set(dataa, percent_train=97.0)
+    train_x, train_y, test_x, test_y = utils.make_training_and_testing_set(data, percent_train=97.0)
     train_x, train_y, test_x, test_y = train_x.to(device), train_y.to(device), test_x.to(device), test_y.to(device)
 
     # build the model
-    seq = model.Sequence2(in_dim=28, out_dim=28, hidden_dim=51).to(device)
+    seq = model.Sequence2(in_dim=data_dim, out_dim=data_dim, hidden_dim=hidden_dim).to(device)
     seq.double()
 
     criterion = nn.MSELoss().to(device)
