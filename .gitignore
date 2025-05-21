@@ -106,8 +106,5 @@ venv.bak/
 # pycharm
 .idea
 
-# Data folder.
-data
-
 # Vagrant cache folder
 .vagrant
